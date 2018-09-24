@@ -134,27 +134,51 @@ int main(int argc, char** argv){
 	}
 	mp_cards.shrink_to_fit();
 	
-	vector<Card> pl_cards = vector<Card>();
+	vector<List> pl_lists = vector<List>();
 	plf_r.start();
-	int num_cards = stoi(plf_r.current(), nullptr, 10);
-	if(num_cards+1!=plf_r.getSize()){
-		cout << "File size does not match Indicated File size" << endl;
-	}
-	while(plf_r.next()){
-		vector<string> str_v = parser(plf_r.current());
-		if(str_v.size()!=2){
-			cout << "Bad Format: \"";
-			for(int i=0; i<str_v.size(); i++){
-				if(i!=0)
-					cout << ' ';
-				cout << str_v[i];
+	int num_cards=0;
+	int vector_index=-1;
+	int cur=-1;
+	do{
+		cur++;
+		if(cur==num_cards){
+			if(vector_index>-1){
+				pl_lists[vector_index].shrink_to_fit();
 			}
-			cout << "\" not \"ssssssss llll\"" << endl;
-			return 1;
+			vector_index++;
+			cur=-1;
+			vector<string> str_v = parser(plf_r.current());
+			if(str_v.size()!=2){
+				cout << "Bad Format: \"";
+				for(int i=0; i<str_v.size(); i++){
+					if(i!=0)
+						cout << ' ';
+					cout << str_v[i];
+				}
+				cout << "\" not \"llll llll\"" << endl;
+				return 1;
+			}
+			num_cards = stoi(str_v[0], nullptr, 10);
+			long weight = stol(str_v[1], nullptr, 10);
+			List list = List(weight);
+			pl_lists.push_back(list);
+		} 
+		else {
+			vector<string> str_v = parser(plf_r.current());
+			if(str_v.size()!=2){
+				cout << "Bad Format: \"";
+				for(int i=0; i<str_v.size(); i++){
+					if(i!=0)
+						cout << ' ';
+					cout << str_v[i];
+				}
+				cout << "\" not \"ssssssss llll\"" << endl;
+				return 1;
+			}
+			pl_lists[vector_index].addCard(makeCard(str_v));
 		}
-		pl_cards.push_back(makeCard(str_v));
-	}
-	pl_cards.shrink_to_fit();
+	} while(plf_r.next());
+	pl_lists.shrink_to_fit();
 	
 	
 	

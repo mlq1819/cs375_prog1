@@ -21,4 +21,16 @@ class Card{
 		bool expensive(Card o) const {return this->price>o.getPrice();};
 };
 
+class List{
+	private:
+		std::vector<Card> cards;
+		long weight;
+	public:
+		List(long weight){this->weight=weight;};
+		void addCard(Card c){this->cards.push_back(c); this->cards.shrink_to_fit();};
+		Card operator[](std::size_t index) const {return this->cards[index];};
+		std::size_t getSize() const {return this->cards.size();};
+		long getWeight() const {return this->weight;} ;
+};
+
 #endif
