@@ -6,7 +6,7 @@
 #include <vector>
 #include <stdio.h>
 #include <string>
-#define DEBUG false;
+#define DEBUG false
 
 using namespace std;
 
