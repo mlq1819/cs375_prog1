@@ -1,5 +1,6 @@
 #include "program1.h"
 #include "Filereader.h"
+#include <time.h>
 #define DEBUG false
 
 using namespace std;
@@ -33,6 +34,72 @@ Card makeCard(vector<string> str_v){
 	string name = str_v[0];
 	long price = stol(str_v[1], nullptr, 10);
 	return Card(name, price);
+}
+
+long List::getSumWeights() const {
+	long sum = 0;
+	for(unsigned int i=0; i<this->size(); i++)
+		sum+=cards[i].getPrice();
+	return sum;
+}
+
+bool List::hasCard(Card c) const {
+	for(unsigned int i=0; i<this->size(); i++){
+		if((*this)[i].equals(c))
+			return true;
+	}
+	return false;
+}
+
+long List::getPrice(Card c) const {
+	for(unsigned int i=0; i<this->size(); i++){
+		if((*this)[i].equals(c))
+			return (*this)[i].getPrice();
+	}
+	return -1;
+}
+
+int * BruteForce(List seller, List market){
+	long maxProfit = 0;
+	if(seller.getSumWeights()<=seller.getWeight()){
+		for(unsigned int i=0; i<seller.size(); i++)
+			maxProfit+=market.getPrice(seller[i])-seller[i].getPrice();
+		int toReturn[2] = {maxProfit, (int)seller.size()};
+		return toReturn;
+	}
+	bool arr[seller.size()] = {false};
+	List cur_subset = List(seller.getWeight());
+	List max_subset = List(seller.getWeight());
+	bool allTrue = false;
+	while(!allTrue){
+		long curProfit=0
+		if(cur_subset.getSumWeights()<=seller.getWeight()){
+			for(unsigned int i=0; i<cur_subset.size(); i++)
+				curProfit+=market.getPrice(cur_subset[i])-cur_subset[i].getPrice();
+			if(curProfit>maxProfit){
+				max_subset.clear();
+				for(unsigned int i=0; i<cur_subset.size(); i++)
+					max_subset.addCard(cur_subset[i]);
+				maxProfit=curProfit;
+			}
+		}
+		cur_subset.clear();
+		allTrue=true;
+		bool inc = true;
+		for(unsigned int i=0; i<seller.size(); i++){
+			allTrue = allTrue&&arr[i];
+			if(inc && arr[i])
+				arr[i]=false;
+			else if(inc && !arr[i]){
+				arr[i]=true;
+				inc = false;
+			}
+			if(arr[i])
+				cur_subset.addCard(seller[i]);
+		}
+	}
+	int toReturn[2] = {maxProfit, (int)max_subset.size()};
+	return toReturn;
 }
 
 int main(int argc, char** argv){
@@ -113,7 +180,7 @@ int main(int argc, char** argv){
 	}
 	plf.close();
 	
-	vector<Card> mp_cards = vector<Card>();
+	List mp_list = List(0);
 	mpf_r.start();
 	unsigned int num_cards = stoi(mpf_r.current(), nullptr, 10);
 	if(num_cards+1!=mpf_r.getSize()){
@@ -131,9 +198,9 @@ int main(int argc, char** argv){
 			cout << "\" not \"ssssssss llll\"" << endl;
 			return 1;
 		}
-		mp_cards.push_back(makeCard(str_v));
+		mp_list.addCard(makeCard(str_v));
 	}
-	mp_cards.shrink_to_fit();
+	mp_list.shrink_to_fit();
 	
 	vector<List> pl_lists = vector<List>();
 	plf_r.start();
@@ -181,7 +248,29 @@ int main(int argc, char** argv){
 	} while(plf_r.next());
 	pl_lists.shrink_to_fit();
 	
-	
-	
+	ofstream output;
+	output.open("output.txt");
+	for(unsigned int i=0; i<pl_lists.size(); i++){
+		for(unsigned int j=0; j<pl_lists[i].size(); j++){
+			if(!mp_list.hasCard(pl_lists[i][j])){
+				cout << pl_list[i][j].getName() << " (" << pl_list[i][j] << ") not found in market" << endl;
+				output << pl_list[i][j].getName() << " (" << pl_list[i][j] << ") not found in market";
+				output.close();
+				return 1;
+			}
+		}
+		int * outcome;
+		time_t start_time, end_time;
+		if(DEBUG)
+			cout << "Starting BruteForce, list " << i << "..." << endl;
+		time(&start_time);
+		outcome = BruteForce(pl_lists[i], mp_list);
+		time(&end_time);
+		long runtime = (long) difftime(end_time, start_time);
+		if(DEBUG)
+			cout << "Ended BruteForce, list " << i << " (" << runtime << ")\n" << endl;
+		output << pl_lists.size() << " " << outcome[0] << " " << outcome[1] << " " << runtime << endl;
+	}
+	output.close();	
 	return 0;
 }
