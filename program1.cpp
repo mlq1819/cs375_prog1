@@ -25,10 +25,12 @@ int main(int argc, char** argv){
 	}
 	string mp_fname = "";
 	string pl_fname = "";
-	for(int i=1; i<argc; i++){
-		if(argv[i].compare("-m")==0 && i<argc-1){
+	string m = "-m";
+	string p = "-p";
+	for(unsigned int i=1; i<argc; i++){
+		if(m.compare(argv[i])==0 && i<argc-1){
 			mp_fname=argv[++i];
-		} else if(argv[i].compare("-p") && i<argc-1){
+		} else if(p.compare(argv[i])==0 && i<argc-1){
 			pl_fname=argv[++i];
 		}
 	}
@@ -54,13 +56,13 @@ int main(int argc, char** argv){
 		cout << "Bad File Name: " << mp_fname << endl;
 		return 1;
 	}
-	FileReader mkf_r(&mpf);
-	if(!mkf_r.readFile()){
+	FileReader mpf_r(&mpf);
+	if(!mpf_r.readFile()){
 		cout << "Reader Failure" << endl;
-		mkf.close();
+		mpf.close();
 		return 1;
 	}
-	mkf.close();
+	mpf.close();
 	
 	plf.open(pl_fname);
 	if(!plf.is_open()){
