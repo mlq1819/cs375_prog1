@@ -115,7 +115,7 @@ int main(int argc, char** argv){
 	
 	vector<Card> mp_cards = vector<Card>();
 	mpf_r.start();
-	int num_cards = stoi(mpf_r.current(), nullptr, 10);
+	unsigned int num_cards = stoi(mpf_r.current(), nullptr, 10);
 	if(num_cards+1!=mpf_r.getSize()){
 		cout << "File size does not match Indicated File size" << endl;
 	}
@@ -123,7 +123,7 @@ int main(int argc, char** argv){
 		vector<string> str_v = parser(mpf_r.current());
 		if(str_v.size()!=2){
 			cout << "Bad Format: \"";
-			for(int i=0; i<str_v.size(); i++){
+			for(unsigned int i=0; i<str_v.size(); i++){
 				if(i!=0)
 					cout << ' ';
 				cout << str_v[i];
@@ -151,7 +151,7 @@ int main(int argc, char** argv){
 			vector<string> str_v = parser(plf_r.current());
 			if(str_v.size()!=2){
 				cout << "Bad Format: \"";
-				for(int i=0; i<str_v.size(); i++){
+				for(unsigned int i=0; i<str_v.size(); i++){
 					if(i!=0)
 						cout << ' ';
 					cout << str_v[i];
@@ -168,7 +168,7 @@ int main(int argc, char** argv){
 			vector<string> str_v = parser(plf_r.current());
 			if(str_v.size()!=2){
 				cout << "Bad Format: \"";
-				for(int i=0; i<str_v.size(); i++){
+				for(unsigned int i=0; i<str_v.size(); i++){
 					if(i!=0)
 						cout << ' ';
 					cout << str_v[i];
