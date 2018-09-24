@@ -137,7 +137,7 @@ int main(int argc, char** argv){
 	
 	vector<List> pl_lists = vector<List>();
 	plf_r.start();
-	int num_cards=0;
+	num_cards=0;
 	int vector_index=-1;
 	int cur=-1;
 	do{
