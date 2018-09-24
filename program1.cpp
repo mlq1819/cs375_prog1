@@ -253,8 +253,8 @@ int main(int argc, char** argv){
 	for(unsigned int i=0; i<pl_lists.size(); i++){
 		for(unsigned int j=0; j<pl_lists[i].size(); j++){
 			if(!mp_list.hasCard(pl_lists[i][j])){
-				cout << pl_list[i][j].getName() << " (" << pl_list[i][j] << ") not found in market" << endl;
-				output << pl_list[i][j].getName() << " (" << pl_list[i][j] << ") not found in market";
+				cout << pl_lists[i][j].getName() << " (" << pl_lists[i][j] << ") not found in market" << endl;
+				output << pl_lists[i][j].getName() << " (" << pl_lists[i][j] << ") not found in market";
 				output.close();
 				return 1;
 			}
