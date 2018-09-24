@@ -59,12 +59,14 @@ long List::getPrice(Card c) const {
 	return -1;
 }
 
-int * BruteForce(List seller, List market){
+vector<int> BruteForce(List seller, List market){
 	long maxProfit = 0;
 	if(seller.getSumWeights()<=seller.getWeight()){
 		for(unsigned int i=0; i<seller.size(); i++)
 			maxProfit+=market.getPrice(seller[i])-seller[i].getPrice();
-		int toReturn[2] = {maxProfit, (int)seller.size()};
+		vector<int> toReturn;
+		toReturn.push_back(maxProfit);
+		toReturn.push_back(seller.size());
 		return toReturn;
 	}
 	bool arr[seller.size()] = {false};
@@ -108,7 +110,9 @@ int * BruteForce(List seller, List market){
 				cur_subset.addCard(seller[i]);
 		}
 	}
-	int toReturn[2] = {maxProfit, (int)max_subset.size()};
+	vector<int> toReturn;
+	toReturn.push_back(maxProfit);
+	toReturn.push_back(max_subset.size());
 	return toReturn;
 }
 
@@ -273,7 +277,7 @@ int main(int argc, char** argv){
 				return 1;
 			}
 		}
-		int * outcome;
+		vector<int> outcome;
 		time_t start_time, end_time;
 		if(DEBUG)
 			cout << "Starting BruteForce, list " << i << "..." << endl;
