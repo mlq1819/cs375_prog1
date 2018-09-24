@@ -72,7 +72,7 @@ int * BruteForce(List seller, List market){
 	List max_subset = List(seller.getWeight());
 	bool allTrue = false;
 	while(!allTrue){
-		long curProfit=0
+		long curProfit=0;
 		if(cur_subset.getSumWeights()<=seller.getWeight()){
 			for(unsigned int i=0; i<cur_subset.size(); i++)
 				curProfit+=market.getPrice(cur_subset[i])-cur_subset[i].getPrice();
