@@ -1,7 +1,7 @@
 #include "program1.h"
 #include "Filereader.h"
 #include <time.h>
-#define DEBUG true
+#define DEBUG false
 
 using namespace std;
 
