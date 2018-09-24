@@ -20,7 +20,7 @@ int main(int argc, char** argv){
 		cout << endl;
 	}
 	if(argc<5){
-		cout << "Too many arguments" << endl;
+		cout << "Not enough arguments" << endl;
 		return 1;
 	}
 	string mp_fname = "";
@@ -54,6 +54,9 @@ int main(int argc, char** argv){
 	mpf.open(mp_fname);
 	if(!mpf.is_open()){
 		cout << "Bad File Name: " << mp_fname << endl;
+		plf.open(pl_fname);
+		if(!plf.is_open())
+			cout << "Bad File Name: " << pl_fname << endl;
 		return 1;
 	}
 	FileReader mpf_r(&mpf);
