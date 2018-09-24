@@ -1,5 +1,4 @@
 #include "Filereader.h"
-
 #define DEBUG false
 
 using namespace std;
@@ -9,7 +8,7 @@ vector<string> parser(string str){
 	string s = "";
 	for(unsigned int i=0; i<str.size(); i++){
 		char c = str.at(i);
-		if(c=='\t'){
+		if(c==' '){
 			if(s.size()>0){
 				str_v.push_back(s);
 				s="";
@@ -20,7 +19,19 @@ vector<string> parser(string str){
 	}
 	if(s.size()>0)
 		str_v.push_back(s);
+	str_v.shrink_to_fit();
 	return str_v;
+}
+
+Card::Card(string name, long price){
+	this->name=name;
+	this->price=price;
+}
+
+Card makeCard(vector<string> str_v){
+	string name = str_v[0];
+	long price = stol(str_v[1], nullptr, 10);
+	return Card(name, price);
 }
 
 int main(int argc, char** argv){
@@ -100,6 +111,50 @@ int main(int argc, char** argv){
 		return 1;
 	}
 	plf.close();
+	
+	vector<Card> mp_cards = vector<Card>();
+	mpf_r.start();
+	int num_cards = stoi(mpf_r.current(), nullptr, 10);
+	if(num_cards+1!=mpf_r.getSize()){
+		cout << "File size does not match Indicated File size" << endl;
+	}
+	while(mpf_r.next()){
+		vector<string> str_v = parser(mpf_r.current());
+		if(str_v.size()!=2){
+			cout << "Bad Format: \"";
+			for(int i=0; i<str_v.size(); i++){
+				if(i!=0)
+					cout << ' ';
+				cout << str_v[i];
+			}
+			cout << "\" not \"ssssssss llll\"" << endl;
+			return 1;
+		}
+		mp_cards.push_back(makeCard(str_v));
+	}
+	mp_cards.shrink_to_fit();
+	
+	vector<Card> pl_cards = vector<Card>();
+	plf_r.start();
+	int num_cards = stoi(plf_r.current(), nullptr, 10);
+	if(num_cards+1!=plf_r.getSize()){
+		cout << "File size does not match Indicated File size" << endl;
+	}
+	while(plf_r.next()){
+		vector<string> str_v = parser(plf_r.current());
+		if(str_v.size()!=2){
+			cout << "Bad Format: \"";
+			for(int i=0; i<str_v.size(); i++){
+				if(i!=0)
+					cout << ' ';
+				cout << str_v[i];
+			}
+			cout << "\" not \"ssssssss llll\"" << endl;
+			return 1;
+		}
+		pl_cards.push_back(makeCard(str_v));
+	}
+	pl_cards.shrink_to_fit();
 	
 	
 	
