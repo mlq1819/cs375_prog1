@@ -1,7 +1,7 @@
 #include "program1.h"
 #include "Filereader.h"
 #include <time.h>
-#define DEBUG false
+#define DEBUG true
 
 using namespace std;
 
@@ -120,6 +120,8 @@ int main(int argc, char** argv){
 	string m = "-m";
 	string p = "-p";
 	for(int i=1; i<argc; i++){
+		if(DEBUG)
+			cout << "argv[" << i << "]: " << argv[i] << endl;
 		if(m.compare(argv[i])==0 && i<argc-1){
 			if(mp_fname.compare("")!=0){
 				cout << "market-price-file given multiple times" << endl;
