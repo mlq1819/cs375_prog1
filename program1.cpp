@@ -142,7 +142,7 @@ int main(int argc, char** argv){
 	int cur=-1;
 	do{
 		cur++;
-		if(cur==num_cards){
+		if(cur==((int) num_cards)){
 			if(vector_index>-1){
 				pl_lists[vector_index].shrink_to_fit();
 			}
