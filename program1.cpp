@@ -72,6 +72,16 @@ int * BruteForce(List seller, List market){
 	List max_subset = List(seller.getWeight());
 	bool allTrue = false;
 	while(!allTrue){
+		if(DEBUG){
+			cout << cur_subset.size() << ":";
+			for(unsigned int i=0; i<seller.size(); i++){
+				if(arr[i])
+					cout << '1';
+				else
+					cout << '0';
+			}
+			cout << endl;
+		}
 		long curProfit=0;
 		if(cur_subset.getSumWeights()<=seller.getWeight()){
 			for(unsigned int i=0; i<cur_subset.size(); i++)
