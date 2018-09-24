@@ -263,6 +263,8 @@ int main(int argc, char** argv){
 	ofstream output;
 	output.open("output.txt");
 	for(unsigned int i=0; i<pl_lists.size(); i++){
+		if(DEBUG)
+			cout << "Checking for misfits: List " << i << "..." << endl;
 		for(unsigned int j=0; j<pl_lists[i].size(); j++){
 			if(!mp_list.hasCard(pl_lists[i][j])){
 				cout << pl_lists[i][j].getName() << " (" << pl_lists[i][j].getPrice() << ") not found in market" << endl;
