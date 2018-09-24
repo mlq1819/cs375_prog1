@@ -27,7 +27,7 @@ int main(int argc, char** argv){
 	string pl_fname = "";
 	string m = "-m";
 	string p = "-p";
-	for(unsigned int i=1; i<argc; i++){
+	for(int i=1; i<argc; i++){
 		if(m.compare(argv[i])==0 && i<argc-1){
 			mp_fname=argv[++i];
 		} else if(p.compare(argv[i])==0 && i<argc-1){
