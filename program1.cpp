@@ -1,14 +1,27 @@
 #include "Filereader.h"
-#include <stdlib.h>
-#include <cstddef>
-#include <fstream>
-#include <iostream>
-#include <vector>
-#include <stdio.h>
-#include <string>
+
 #define DEBUG false
 
 using namespace std;
+
+vector<string> parser(string str){
+	vector<string> str_v = vector<string>();
+	string s = "";
+	for(unsigned int i=0; i<str.size(); i++){
+		char c = str.at(i);
+		if(c=='\t'){
+			if(s.size()>0){
+				str_v.push_back(s);
+				s="";
+			}
+		} else {
+			s.append(1, c);
+		}
+	}
+	if(s.size()>0)
+		str_v.push_back(s);
+	return str_v;
+}
 
 int main(int argc, char** argv){
 	if(DEBUG){
@@ -29,8 +42,16 @@ int main(int argc, char** argv){
 	string p = "-p";
 	for(int i=1; i<argc; i++){
 		if(m.compare(argv[i])==0 && i<argc-1){
+			if(mp_fname.compare("")==0){
+				cout << "market-price-file given multiple times" << endl;
+				return 1;
+			}
 			mp_fname=argv[++i];
 		} else if(p.compare(argv[i])==0 && i<argc-1){
+			if(pl_fname.compare("")==0){
+				cout << "price-list-file given multiple times" << endl;
+				return 1;
+			}
 			pl_fname=argv[++i];
 		}
 	}
