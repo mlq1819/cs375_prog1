@@ -283,7 +283,10 @@ int main(int argc, char** argv){
 		long runtime = (long) difftime(end_time, start_time);
 		if(DEBUG)
 			cout << "Ended BruteForce, list " << i << " (" << runtime << ")\n" << endl;
-		output << pl_lists.size() << " " << outcome[0] << " " << outcome[1] << " " << runtime << endl;
+		output << pl_lists.size() << endl;
+		output << " " << outcome[0] << endl;
+		output << " " << outcome[1] << endl;
+		output << " " << runtime << endl;
 	}
 	output.close();	
 	return 0;
